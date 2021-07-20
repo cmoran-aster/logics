@@ -206,13 +206,13 @@
                         </div>
                         <div class="copyright">
                             <p>
-                                <a href="https://www.cmstring.com">©CmString 2021</a>
+                                <a href="http://www.aster.com.gt">©Aster 2021</a>
                             </p>
                         </div>
                     </div>
                     <div class="content-w3ls">
                         <div class="text-center icon">
-                            <img src="images/Logo-Carro.jpg" style="border-radius: 50%;" width="55%" >
+                            <img src="{{asset("assets/lte/dist/img/logo_logics_2021.JPG")}}" style="border-radius: 50%;" width="55%" >
                         </div>
                         <div class="content-bottom">
                             <form action="#" method="post" >
@@ -231,7 +231,7 @@
                                 
                                 
                                 <div class="wthree-field">
-                                    <button type="submit" class="btn" style="background-color:#28E131;">Ingresar</button>
+                                    <button type="submit" class="btn" style="background-color:#1e426b;">Ingresar</button>
                                 </div>
                                 <ul class="list-login">
                                     <li class="switch-agileits">
