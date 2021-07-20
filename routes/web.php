@@ -17,14 +17,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+Route::get('/menu', [App\Http\Controllers\Admin\AdminController::class, 'index']);
+
+/*
 Route::get('/menu', function () {
     return view('theme/lte/layout');
 });
-
+*/
+/*
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
