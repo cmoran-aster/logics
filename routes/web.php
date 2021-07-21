@@ -18,19 +18,13 @@ Route::get('/', function () {
 });
 
 
+Route::get('/login',[App\Http\Controllers\Seguridad\LoginController::class,'index'])->name('login');
 
-Route::get('/menu', [App\Http\Controllers\Admin\AdminController::class, 'index']);
+Route::post('/login',[App\Http\Controllers\Seguridad\LoginController::class,'login'])->name('login_post');
 
-/*
-Route::get('/menu', function () {
-    return view('theme/lte/layout');
+
+/* aqui estamos agergando el grupo de url que necesitan un login para ser usadas */
+Route::middleware('auth')->group(function () {
+    Route::get('/menu', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 });
-*/
-/*
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
