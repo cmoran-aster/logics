@@ -29,8 +29,8 @@ class TablaUsuarios extends Migration
             $table->Integer('Intentos');
             $table->Integer('Bloqueado');
             $table->Integer('Admin');
-            $table->string('UsuarioMod',50);
-            $table->dateTime('FechaMod');            
+            $table->string('UsuarioMod',50)->nullable($value = true);
+            $table->dateTime('FechaMod')->nullable($value = true);            
             $table->timestamps();
         });
     }
