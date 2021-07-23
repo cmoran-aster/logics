@@ -38,7 +38,7 @@ class LoginController extends Controller
             $request->session()->invalidate();
             return redirect('/login')->withErrors(['error' => 'Este usuario se encuentra bloqueado']);
         }else{
-            $user->setSession();
+            $user->setSession($user);
         }
     }
 

@@ -14,6 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        //dd(session()->all());
         return view('theme.lte.layout');
     }
 

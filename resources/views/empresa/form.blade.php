@@ -15,7 +15,7 @@
 <div class="form-group row">
     <label class="col-sm-2 col-form-label requerido">Codigo Domestico</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="CodigoDomestico" name="CodigoDomestico" placeholder="Codigo Domestico" maxlength="3" required>
+        <input type="number" class="form-control" id="CodigoDomestico" name="CodigoDomestico" placeholder="Codigo Domestico" maxlength="3" required>
     </div>
 </div>
 

@@ -46,7 +46,7 @@ var Logics = function () {
 
                 },
                 submitHandler: function (form){
-
+                    return true;
                 }
             });
         }
