@@ -13,13 +13,12 @@ class UsuarioAdministradorSeeder extends Seeder
      */
     public function run()
     {
-        
         DB::table('lgs_usuarios')->insert([
             'CodEmpresa' => 1, 
-            'Usuario' => "admin", 
+            'usuario' => "cmoran", 
             'Nombres' => "Christian", 
             'Apellidos' => "Moran", 
-            'Password' => bcrypt('cmoran21'), 
+            'password' => bcrypt('cmoran21'), 
             'Nit' => "83299491", 
             'Email' => "cmoran@aster.com.gt", 
             'PasswordSat' => "a",

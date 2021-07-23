@@ -143,7 +143,7 @@
                     <div class="field-group">
                         <span class="fa fa-user" aria-hidden="true"></span>
                         <div class="wthree-field">
-                            <input name="usuario" id="usuario" type="text" placeholder="usuario" value="{{old('usuario')}}" required>
+                            <input name="usuario" id="usuario" type="text" placeholder="Usuario" value="{{old('Usuario')}}" required>
                         </div>
                     </div>
                     <div class="field-group">

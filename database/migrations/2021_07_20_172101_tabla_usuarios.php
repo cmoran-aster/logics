@@ -15,12 +15,12 @@ class TablaUsuarios extends Migration
     {
         Schema::create('lgs_usuarios', function (Blueprint $table) {
 
-            $table->id('CodUsuario');
+            $table->id('id');
             $table->Integer('CodEmpresa');
-            $table->string('Usuario',25);
+            $table->string('usuario',25);
             $table->string('Nombres',25);
             $table->string('Apellidos',25);
-            $table->string('Password',250);
+            $table->longText('password');
             $table->string('Nit',25)->nullable($value = true);
             $table->string('Email',25)->nullable($value = true);
             $table->string('PasswordSat',250);

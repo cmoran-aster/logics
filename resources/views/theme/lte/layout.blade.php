@@ -4,18 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Logics | Aster</title>
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- icono -->
-  <!-- <link rel="icon" type="image/png" href="/imágenes/mifavicon.png" > -->
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="<!DOCTYPE html>
-  <html style="height: auto;" class="" lang="en"><head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>AdminLTE 3 | Fixed Sidebar</title>
-    
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
       <!-- Font Awesome -->
@@ -24,6 +12,12 @@
       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
       <!-- Theme style -->
       <link rel="stylesheet" href="{{asset("assets/$theme/dist/css/adminlte.min.css")}}">
+      <style>
+        label.requerido:after{
+          content: " *";
+          color: rgb(182, 24, 24);
+        }
+      </style>
     </head>
     <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse" style="height: auto;">
     <!-- Site wrapper -->
@@ -62,6 +56,11 @@
     <script src="{{asset("assets/$theme/plugins/jquery/jquery.min.js")}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset("assets/$theme/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
+    <!-- jquery-validation -->
+    <script src="{{asset("assets/$theme/plugins/jquery-validation/jquery.validate.min.js")}}"></script>
+    <script src="{{asset("assets/$theme/plugins/jquery-validation/additional-methods.min.js")}}"></script>
+    <script src="{{asset("assets/$theme/plugins/jquery-validation/localization/messages_es.min.js")}}"></script>
+    <script src="{{asset("assets/js/funciones.js")}}"></script>
     <!-- overlayScrollbars -->
     <script src="{{asset("assets/$theme/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>
     <!-- AdminLTE App -->
@@ -69,6 +68,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset("assets/$theme/dist/js/demo.js")}}"></script>
     
+    @yield('script')
     
     </body>
 </html>
