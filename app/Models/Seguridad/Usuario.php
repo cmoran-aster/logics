@@ -20,9 +20,10 @@ class Usuario extends Authenticatable
     public function setSession($DatosUsuario){
 
         $CodEmrpesaE = $DatosUsuario->attributes['CodEmpresa'];
-        $empresa = DB::table('lgs_empresa')->where('CodEmpresa',$CodEmrpesaE)->get();
+        $empresa = DB::table('lgs_empresa')->where('id',$CodEmrpesaE)->get();
+
         foreach ($empresa as $Empresas) {
-            $CodEmpresaEncontrado = $Empresas->CodEmpresa;
+            $CodEmpresaEncontrado = $Empresas->id;
             $NombreEmpresaEncontrado = $Empresas->Empresa;
             $CodigoDomesticoEncontrado = $Empresas->CodigoDomestico;
             $GNLEncontrado = $Empresas->GLN;

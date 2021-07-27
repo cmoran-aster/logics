@@ -1,6 +1,6 @@
 @extends("theme.$theme.layout")
 @section('TituloPrincipal')
-    Empresas
+    Clientes
 @endsection
 @section('script')
 <script type="text/javascript">
@@ -11,8 +11,8 @@
 @section('Navegacion')
     <div class="row">
       <div class="col-md-12 text-right">
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#NuevaEmpresaModal">
-          Nueva Empresa
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#NuevoClienteModal">
+          Nuevo Cliente
         </button>
       </div>
     </div>
@@ -37,7 +37,6 @@
         <div class="tab-pane fade active show" id="NuevaEmpresa" role="tabpanel" aria-labelledby="NuevaEmpresa-tab">
             @include('includes.mensajes.exito')
             @include('includes.mensajes.error')
-
             <div class="row">
               <div class="col-md-12">
                 <br>
@@ -50,32 +49,40 @@
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Forma Pago</th>
-                        <th>Codigo Domestico</th>
-                        <th>GNL</th>
+                        <th>Cliente</th>
+                        <th>Nit</th>
+                        <th>EmailPlanta</th>
+                        <th>DirOficina</th>
+                        <th>CodigoPais</th>
+                        <th>CodigoLugar</th>
+                        <th>DiasCredito</th>
+                        <th>TelPlanta</th>
+                        <th>Agente</th>
+                        <th>Proveedor</th>
                         <th>Creado</th>
-                        <th>Modificado</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($EmpresasList as $EmpresaItem)
-                          <tr>
-                            <th>{{$EmpresaItem -> id}}</th>
-                            <td>{{$EmpresaItem -> Empresa}}</td>
-                            <td>{{$EmpresaItem -> FormaPago}}</td>
-                            <td>{{$EmpresaItem -> CodigoDomestico}}</td>
-                            <td>{{$EmpresaItem -> GLN}}</td>
-                            <td>{{$EmpresaItem -> created_ad}}</td>
-                            <td>{{$EmpresaItem -> updated_ad}}</td>
+                      @foreach ($ClientesListado as $Listado)
+                        <tr>
+                            <td>{{$Listado->id}}</td>
+                            <td>{{$Listado->Cliente}}</td>
+                            <td>{{$Listado->Nit}}</td>
+                            <td>{{$Listado->EmailPlanta}}</td>
+                            <td>{{$Listado->DirOficina}}</td>
+                            <td>{{$Listado->CodigoPais}}</td>
+                            <td>{{$Listado->CodigoLugar}}</td>
+                            <td>{{$Listado->DiasCredito}}</td>
+                            <td>{{$Listado->TelPlanta}}</td>
+                            <td>{{$Listado->Agente}}</td>
+                            <td>{{$Listado->Proveedor}}</td>
+                            <td>{{date("d/m/Y",strtotime($Listado->created_at))}}</td>
                             <td>
-                              <div class="btn-group">
-                                <a class="btn btn-sm btn-warning" href="{{route('Empresa.edit',$EmpresaItem->id)}} ">Editar</a>
-                                <a class="btn btn-sm btn-delete" href="">Eliminar</a>
-                              </div>
+                                <a href="{{route('clientes.edit',$Listado->id)}} " class="btn btn-warning">Editar</a>
+                                <a  class="btn btn-danger">Eliminar</a>
                             </td>
-                          </tr>
+                        </tr>
                       @endforeach
                     </tbody>
                   </table>
@@ -87,9 +94,6 @@
         <div class="tab-pane fade" id="Listado" role="tabpanel" aria-labelledby="Listado-tab">
           b
         </div>
-        <div class="tab-pane fade" id="Reporte" role="tabpanel" aria-labelledby="Reporte-tab">
-          c                    
-        </div>
       </div>
     </div>
     <!-- /.card -->
@@ -98,26 +102,26 @@
 
 
 <!-- esta es el area del modal-->
-@extends('includes.modal', array('IdModal'=>'NuevaEmpresaModal','TamanoModal' => 'xl'))
+@extends('includes.modal', array('IdModal'=>'NuevoClienteModal','TamanoModal' => 'xl'))
 @section('TituloModal')
-    Nueva Empresa
+    Nuevo Cliente
 @endsection
 @section('BodyModal')
-  <form class="form-horizontal" action="{{route('clientes.store')}}" id="form-general" method="POST">
-    @csrf
-    <div class="card-body">
-      @include('empresa.form')
-    </div>
-    <!-- /.card-body -->
-    <div class="card-footer">
-      <div class="row">
-          <div class="col-md-12 text-center">
-              @include('includes.botones.boton-crear')
-            <!--<button type="submit" class="btn btn-info">Guardar</button>-->
-          </div>
-      </div>
-    </div>
-    <!-- /.card-footer -->
+
+    <form class="form-horizontal" action="{{route('clientes.store')}}" id="form-general" method="POST">
+        @csrf
+        <div class="card-body">
+        @include('clientes.form')
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                @include('includes.botones.boton-crear')
+                <!--<button type="submit" class="btn btn-info">Guardar</button>-->
+            </div>
+        </div>
+        </div>
+        <!-- /.card-footer -->
   </form>
 @endsection
-

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\ClientesController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +28,14 @@ Route::get('/logout', [App\Http\Controllers\Seguridad\LoginController::class,'lo
 /* aqui estamos agergando el grupo de url que necesitan un login para ser usadas */
 Route::middleware('auth')->group(function () {
     Route::get('/menu', [App\Http\Controllers\Admin\AdminController::class, 'index']);
-    Route::get('/empresa',[App\Http\Controllers\Admin\EmpresaController::class,'index'])->name('EmpresaCrear');
-    Route::post('/empresa',[App\Http\Controllers\Admin\EmpresaController::class,'guardar'])->name('GuardarEmpresa');
+    
+    /* Empresa */
+    Route::get('/empresa',[EmpresaController::class,'index'])->name('EmpresaCrear');
+    Route::resource('Empresa', EmpresaController::class); /* este incluye todas las rutas de la empresa controller*/
+
+    /* Clientes */
+    Route::get('/clientes',[ClientesController::class,'index'])->name('ClientesCrear');
+    Route::resource('/clientes', ClientesController::class); /* este incluye todas las rutas de la empresa controller*/
     
 });
 

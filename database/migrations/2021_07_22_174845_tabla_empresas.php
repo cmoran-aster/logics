@@ -10,7 +10,7 @@ class TablaEmpresas extends Migration
     {
         Schema::create('lgs_empresa', function (Blueprint $table) {
 
-            $table->id('CodEmpresa');
+            $table->id('id');
             $table->longText('Empresa');
             $table->string('FormaPago',300)->nullable($value = true);
             $table->string('CodigoDomestico',3);

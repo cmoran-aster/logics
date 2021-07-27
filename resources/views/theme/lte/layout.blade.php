@@ -12,6 +12,9 @@
       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
       <!-- Theme style -->
       <link rel="stylesheet" href="{{asset("assets/$theme/dist/css/adminlte.min.css")}}">
+      <!-- Toastr -->
+      <link rel="stylesheet" href="{{asset("assets/$theme/plugins/toastr/toastr.min.css")}}">
+      @yield('style')
       <style>
         label.requerido:after{
           content: " *";
@@ -63,11 +66,30 @@
     <script src="{{asset("assets/js/funciones.js")}}"></script>
     <!-- overlayScrollbars -->
     <script src="{{asset("assets/$theme/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>
+    <!-- Toastr -->
+    <script src="{{asset("assets/$theme/plugins/toastr/toastr.min.js")}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset("assets/$theme/dist/js/adminlte.min.js")}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset("assets/$theme/dist/js/demo.js")}}"></script>
     
+    <script>
+      function alertar(msj,tipo){
+        if (tipo == "v") {
+
+          toastr.success(msj,'Logics',{
+            "positionClass": "toast-top-center",
+            "progressBar": true
+          });
+        }
+        if (tipo == "r") {
+          toastr.error(msj);
+        }
+        if (tipo == "a") {
+          toastr.warning(msj);
+        }
+      }
+    </script>
     @yield('script')
     
     </body>

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Models\Models\Admin\Empresa;
+use App\Models\clientes;
 use Illuminate\Http\Request;
 
-class EmpresaController extends Controller
+class ClientesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,10 @@ class EmpresaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $EmpresasList = Empresa::all();
-        return view("empresa.index",compact('EmpresasList'));
+    {
+        $CodEmpresa = session('CodEmpresa');
+        $ClientesListado = DB::select("SELECT * FROM cl_clientes where CodEmpresa = $CodEmpresa AND Estado > 0");
+        return view("clientes.index",compact('ClientesListado'));
     }
 
     /**
@@ -27,7 +27,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -38,20 +38,18 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all()); //muestra lo que le estoy enviando por medio del formulario
-
-        Empresa::create($request->all());// se llama al modelo donde le especificamos que necesita
+        clientes::create($request->all());// se llama al modelo donde le especificamos que necesita
         
-        return redirect('empresa')->with('mensaje','Se creo la empresa exitosamente.');
+        return redirect('clientes')->with('mensaje','Se agrego el cliente exitosamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\clientes  $clientes
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(clientes $clientes)
     {
         //
     }
@@ -59,36 +57,39 @@ class EmpresaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\clientes  $clientes
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $DatosEditar = DB::select("SELECT * FROM lgs_empresa WHERE id = $id");
-        dd($DatosEditar);
-        return view('hola');
+        $ClientesR = clientes::findOrFail($id);
+        //return $ClientesR;
+        return view("clientes.edit",compact('ClientesR'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\clientes  $clientes
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $datosClientes = request()->except(['_token','_method']);
+        //dd($datosClientes);
+        clientes::where('id','=',$id)->update($datosClientes);
+        return redirect('clientes')->with('mensaje','Se edito el cliente exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\clientes  $clientes
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(clientes $clientes)
     {
-        //php
+        //
     }
 }
