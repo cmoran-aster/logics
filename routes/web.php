@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ExpedienteController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,8 +36,11 @@ Route::middleware('auth')->group(function () {
 
     /* Clientes */
     Route::get('/clientes',[ClientesController::class,'index'])->name('ClientesCrear');
-    Route::resource('/clientes', ClientesController::class); /* este incluye todas las rutas de la empresa controller*/
-    
+    Route::resource('/clientes', ClientesController::class); /* este incluye todas las rutas de la clientes controller*/
+
+    /* Nuevo Expediente*/
+    Route::get('/expediente',[ExpedienteController::class,'index'])->name('ExpedienteCrear');
+    Route::resource('/expedientes', ExpedienteController::class); /* este incluye todas las rutas de la expediente controller*/
 });
 
 

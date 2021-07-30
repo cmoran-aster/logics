@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="{{$IdModal}}" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="{{$IdModal}}" style="display: none;" role="dialog" tabindex='null' aria-hidden="true">
     <div class="modal-dialog modal-{{$TamanoModal}}">
       <div class="modal-content"> 
         <div class="modal-header" style="background-color:#1c375a !important; border-top-left-radius: 3px; border-top-right-radius: 3px; ">

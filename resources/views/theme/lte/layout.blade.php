@@ -10,10 +10,15 @@
       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/fontawesome-free/css/all.min.css")}}">
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
+       <!-- Select2 -->
+       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2/css/select2.min.css")}}">
+       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}">
       <!-- Theme style -->
       <link rel="stylesheet" href="{{asset("assets/$theme/dist/css/adminlte.min.css")}}">
       <!-- Toastr -->
       <link rel="stylesheet" href="{{asset("assets/$theme/plugins/toastr/toastr.min.css")}}">
+     
+
       @yield('style')
       <style>
         label.requerido:after{
@@ -23,6 +28,7 @@
       </style>
     </head>
     <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse" style="height: auto;">
+
     <!-- Site wrapper -->
     <div class="wrapper">
       <!-- Preloader -->
@@ -59,6 +65,8 @@
     <script src="{{asset("assets/$theme/plugins/jquery/jquery.min.js")}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset("assets/$theme/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
+        <!-- Select2 -->
+        <script src="{{asset("assets/$theme/plugins/select2/js/select2.full.min.js")}}"></script>
     <!-- jquery-validation -->
     <script src="{{asset("assets/$theme/plugins/jquery-validation/jquery.validate.min.js")}}"></script>
     <script src="{{asset("assets/$theme/plugins/jquery-validation/additional-methods.min.js")}}"></script>
@@ -72,6 +80,8 @@
     <script src="{{asset("assets/$theme/dist/js/adminlte.min.js")}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset("assets/$theme/dist/js/demo.js")}}"></script>
+
+
     
     <script>
       function alertar(msj,tipo){
@@ -89,6 +99,14 @@
           toastr.warning(msj);
         }
       }
+
+      
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        });
+      
+      
+
     </script>
     @yield('script')
     
