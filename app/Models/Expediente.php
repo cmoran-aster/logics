@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Expediente extends Model
 {
     protected $table = "lgs_expedientes";
-    protected $fillable = ['NumExpediente', 'AnoExpediente', 'CodEmbarcador', 'CodigoTipoServicio', 'CodigoPaisOrigen', 'CodigoPuertoOrigen', 'CodigoPaisDestino', 
+    protected $fillable = [ 'CodEmpresa','NumExpediente', 'AnoExpediente', 'CodEmbarcador', 'CodigoTipoServicio', 'CodigoPaisOrigen', 'CodigoPuertoOrigen', 'CodigoPaisDestino', 
                             'CodigoPuertoDestino', 'LugarOrigen', 'LugarDestino', 'Commodity', 'CodNaviera', 'CodAgente', 'CodConsignatario', 'NumBooking', 'NumBL', 
                             'NumBLMaster', 'NombreBarco', 'AnoManifiesto', 'NumManifiesto', 'NumViaje', 'FechaEta', 'Descripcion', 'Marcas', 'PesoBruto', 'CantEquipos', 
                             'CodigoDescripcionEquipo', 'CodigoTipoCobro', 'Cantidad', 'CodigoTipoEmbalaje', 'FechaValidezTarifa', 'Temperatura', 'FechaVenta', 

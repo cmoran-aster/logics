@@ -17,10 +17,13 @@ class ExpedienteController extends Controller
     {
         $CodEmpresa = session('CodEmpresa');
         $ExpedientesListado = DB::select("SELECT * FROM lgs_expedientes where CodEmpresa = $CodEmpresa AND Estado > 0");
+        $ListadoPaises = DB::select("SELECT * FROM c_paises ORDER BY Pais ");
+        $ListadoDeAgentes = DB::select("SELECT * FROM cl_clientes WHERE Estado > 0 AND Agente = 1 ORDER BY Cliente ");
+        $ListadoDeEmbarcador = DB::select("SELECT * FROM cl_clientes WHERE Estado > 0 AND Proveedor = 1 ORDER BY Cliente ");
+        $ListadoPuertos = DB::select("SELECT * FROM c_puertos ORDER BY Puerto ");
+        $ListadoDescripEquip = DB::select("SELECT * FROM c_equiposdescripciones ");
 
-        $ListadoPaises = DB::select("SELECT * FROM c_paises");
-
-        return view("expedientes.index",compact('ExpedientesListado','ListadoPaises'));
+        return view("expedientes.index",compact('ExpedientesListado','ListadoPaises','ListadoDeAgentes','ListadoDeEmbarcador','ListadoPuertos','ListadoDescripEquip'));
         //return view("expedientes.index");
     }
 
@@ -41,8 +44,33 @@ class ExpedienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $CodEmpresa = session('CodEmpresa');
+        $anoActu = date('Y');
+        $AnoCorre = DB::select("SELECT * FROM lgs_correlativos WHERE AnoActual = $anoActu");
+        if (count($AnoCorre) > 0) {
+            foreach ($AnoCorre as $Corre)
+            {
+                $CorrelativoActual = ($Corre->NumExpedienteActual + 1);
+            }
+        }else{
+            DB::table('lgs_correlativos')->insert([
+                                                    ['NumExpedienteActual' => '0', 'AnoActual' => $anoActu]
+                                                ]);
+
+            $CorrelativoActual = 1;
+        }
+
+        $request->merge(['NumExpediente' => $CorrelativoActual, 'AnoExpediente' => $anoActu]);
+
+
+        if (Expediente::create($request->all())) {
+            DB::table('lgs_correlativos')
+              ->where('AnoActual', $anoActu)
+              ->update(['NumExpedienteActual' => $CorrelativoActual]);
+
+              return redirect('expediente')->with('mensaje','Se creo el expediente exitosamente.');
+        }
     }
 
     /**

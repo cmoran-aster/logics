@@ -64,13 +64,13 @@
                     <tbody>
                       <!--@foreach ($ExpedientesListado as $ExpedienteItem)
                           <tr>
-                            <th>{{$ExpedienteItem -> id}}</th>
-                            <td>{{$ExpedienteItem -> Empresa}}</td>
-                            <td>{{$ExpedienteItem -> FormaPago}}</td>
-                            <td>{{$ExpedienteItem -> CodigoDomestico}}</td>
-                            <td>{{$ExpedienteItem -> GLN}}</td>
-                            <td>{{$ExpedienteItem -> created_ad}}</td>
-                            <td>{{$ExpedienteItem -> updated_ad}}</td>
+                            <th></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                               <div class="btn-group">
                                 <a class="btn btn-sm btn-warning" href="{{route('Empresa.edit',$ExpedienteItem->CodExpediente)}} ">Editar</a>

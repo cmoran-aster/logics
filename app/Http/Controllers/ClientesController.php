@@ -39,7 +39,6 @@ class ClientesController extends Controller
     public function store(Request $request)
     {
         clientes::create($request->all());// se llama al modelo donde le especificamos que necesita
-        
         return redirect('clientes')->with('mensaje','Se agrego el cliente exitosamente.');
     }
 
