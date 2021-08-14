@@ -66,7 +66,7 @@
                     <tbody>
                       @foreach ($ClientesListado as $Listado)
                         <tr>
-                            <td>{{$Listado->id}}</td>
+                            <td>{{$Listado->CodCliente}}</td>
                             <td>{{$Listado->Cliente}}</td>
                             <td>{{$Listado->Nit}}</td>
                             <td>{{$Listado->EmailPlanta}}</td>
@@ -79,7 +79,7 @@
                             <td>{{$Listado->Proveedor}}</td>
                             <td>{{date("d/m/Y",strtotime($Listado->created_at))}}</td>
                             <td>
-                                <a href="{{route('clientes.edit',$Listado->id)}} " class="btn btn-warning">Editar</a>
+                                <a href="{{route('clientes.edit',encrypt($Listado->CodCliente))}} " class="btn btn-warning">Editar</a>
                                 <a  class="btn btn-danger">Eliminar</a>
                             </td>
                         </tr>

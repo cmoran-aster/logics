@@ -41,8 +41,19 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12 text-center">
                   <p>Paramaetros de busqueda:</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                @include('expedientes.form-busqueda')
+                
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <br>
               </div>
             </div>
             <div class="row">
@@ -51,26 +62,24 @@
                   <table class="table table-sm table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Forma Pago</th>
-                        <th>Codigo Domestico</th>
-                        <th>GNL</th>
-                        <th>Creado</th>
-                        <th>Modificado</th>
-                        <th></th>
+                        <th>#</th>
+                        <th>No Expediente</th>
+                        <th>Embarcador </th>
+                        <th>Consignatario </th>
+                        <th>Agente</th>
+                        <th>Fecha</th>
+                        <th>op</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <!--@foreach ($ExpedientesListado as $ExpedienteItem)
+                      @foreach ($ExpedientesListado as $ExpedienteItem)
                           <tr>
                             <th></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$ExpedienteItem->NumExpediente}}-{{$ExpedienteItem->AnoExpediente}}</td>
+                            <td>{{$ExpedienteItem->Embarcador}}</td>
+                            <td>{{$ExpedienteItem->Consignatario}}</td>
+                            <td>{{$ExpedienteItem->Agente}}</td>
+                            <td>{{$ExpedienteItem->FechaVentaEsp}}</td>
                             <td>
                               <div class="btn-group">
                                 <a class="btn btn-sm btn-warning" href="{{route('Empresa.edit',$ExpedienteItem->CodExpediente)}} ">Editar</a>
@@ -78,7 +87,7 @@
                               </div>
                             </td>
                           </tr>
-                      @endforeach-->
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

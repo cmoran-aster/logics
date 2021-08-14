@@ -40,7 +40,7 @@
             <div class="row">
               <div class="col-md-12">
                   
-                <form class="form-horizontal" action="{{route('clientes.update',$ClientesR->id)}}" id="form-general" method="POST">
+                <form class="form-horizontal" action="{{route('clientes.update',$ClientesR->CodCliente)}}" id="form-general" method="POST">
                     @csrf
                     {{method_field('PATCH')}}
                     <div class="card-body">

@@ -4,7 +4,7 @@
         <select name="CodEmbarcador" id="CodEmbarcador" class="form-control  select2bs4" required>
             <option value="">---</option>
             @foreach ($ListadoDeEmbarcador as $EmbarcadorList)
-                <option value="{{ $EmbarcadorList->id; }}">{{ $EmbarcadorList->Cliente; }}</option>
+                <option value="{{ $EmbarcadorList->CodCliente; }}">{{ $EmbarcadorList->Cliente; }}</option>
             @endforeach
         </select>
     </div>
@@ -16,7 +16,7 @@
         <select name="CodConsignatario" id="CodConsignatario" class="form-control select2bs4" required>
             <option value="">---</option>
             @foreach ($ListadoDeEmbarcador as $EmbarcadorList)
-                <option value="{{ $EmbarcadorList->id; }}">{{ $EmbarcadorList->Cliente; }}</option>
+                <option value="{{ $EmbarcadorList->CodCliente; }}">{{ $EmbarcadorList->Cliente; }}</option>
             @endforeach
         </select>
     </div>
@@ -28,7 +28,7 @@
         <select name="CodAgente" id="CodAgente" class="form-control select2bs4" required>
             <option value="">---</option>
             @foreach ($ListadoDeAgentes as $AgentesList)
-                <option value="{{ $AgentesList->id; }}">{{ $AgentesList->Cliente; }}</option>
+                <option value="{{ $AgentesList->CodCliente; }}">{{ $AgentesList->Cliente; }}</option>
             @endforeach
         </select>
     </div>

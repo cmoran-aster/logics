@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\clientes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ClientesController extends Controller
 {
@@ -61,7 +62,7 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        $ClientesR = clientes::findOrFail($id);
+        $ClientesR = clientes::where('CodCliente', decrypt($id))->firstOrFail();
         //return $ClientesR;
         return view("clientes.edit",compact('ClientesR'));
     }
@@ -77,7 +78,7 @@ class ClientesController extends Controller
     {
         $datosClientes = request()->except(['_token','_method']);
         //dd($datosClientes);
-        clientes::where('id','=',$id)->update($datosClientes);
+        clientes::where('CodCliente','=',$id)->update($datosClientes);
         return redirect('clientes')->with('mensaje','Se edito el cliente exitosamente.');
     }
 
