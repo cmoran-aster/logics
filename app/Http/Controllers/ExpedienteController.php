@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ExpedienteController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -95,6 +96,11 @@ class ExpedienteController extends Controller
         //return view("expedientes.index");
     }
 
+    public function all(Request $request){
+        
+        return "hola";
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -170,9 +176,12 @@ class ExpedienteController extends Controller
      * @param  \App\Models\Expediente  $expediente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expediente $expediente)
+    public function update(Request $request, $CodExpediente)
     {
-        //
+        $datosExpediente = request()->except(['_token','_method']);
+ 
+        Expediente::where('CodExpediente','=',$CodExpediente)->update($datosExpediente);
+        return redirect('expediente-mod/'.$CodExpediente)->with('mensaje','Se edito el expediente exitosamente.');
     }
 
     /**

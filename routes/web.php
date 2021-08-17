@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\ExpedienteMod;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +42,10 @@ Route::middleware('auth')->group(function () {
     /* Nuevo Expediente*/
     Route::get('/expediente',[ExpedienteController::class,'index'])->name('ExpedienteCrear');
     Route::resource('/expedientes', ExpedienteController::class); /* este incluye todas las rutas de la expediente controller*/
+
+    /* Ver expediente*/
+    Route::get('/expediente-mod/{CodExpediente}',[ExpedienteMod::class,'index'])->name('ModExpedientes');
+    Route::resource('/expedienteMod', ExpedienteMod::class);
 });
 
 

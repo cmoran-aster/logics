@@ -10,8 +10,8 @@
 
 @section('Navegacion')
     <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{url('/clientes')}}">Regresar</a></li>
         <li class="breadcrumb-item active">Edición de clientes</li>
+        <li class="breadcrumb-item"><a href="{{url('/clientes')}}">Regresar</a></li>
     </ol>
 @endsection
 

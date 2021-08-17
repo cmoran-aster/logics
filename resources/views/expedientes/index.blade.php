@@ -82,8 +82,9 @@
                             <td>{{$ExpedienteItem->FechaVentaEsp}}</td>
                             <td>
                               <div class="btn-group">
-                                <a class="btn btn-sm btn-warning" href="{{route('Empresa.edit',$ExpedienteItem->CodExpediente)}} ">Editar</a>
-                                <a class="btn btn-sm btn-delete" href="">Eliminar</a>
+                                <a class="btn btn-sm btn-info" href="{{route('ModExpedientes',$ExpedienteItem->CodExpediente)}} ">Ver</a>
+                                <a class="btn btn-sm btn-warning" href="{{route('expedientes.edit',$ExpedienteItem->CodExpediente)}} ">Editar</a>
+                                <a class="btn btn-sm btn-danger" href="">Eliminar</a>
                               </div>
                             </td>
                           </tr>

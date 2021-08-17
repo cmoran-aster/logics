@@ -27,7 +27,7 @@
         }
       </style>
     </head>
-    <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse" style="height: auto;">
+    <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse text-sm" style="height: auto;">
 
     <!-- Site wrapper -->
     <div class="wrapper">
