@@ -7,6 +7,50 @@
   Logics.ValidacionGeneral('form-general');
   Logics.ValidacionGeneral('form-Expediente');
   
+
+  
+
+  $(document).ready(function () {
+    var tablaequipos = $("#table-equipos").DataTable({
+        processing:true,
+        serverSide:true,
+        "searching": false,//quita el buscador
+        "autoWidth": false,//quita el auto ajuste
+        "bPaginate": false,//quita el paginador
+        "lengthChange": false,// quita el filtro
+        ajax:{
+            url: "{{ route('equipos.index') }} ",
+            data: {
+                CodExpediente: {{$CodExpediente}}
+            }
+        },
+        columns:[
+            {data: 'CodEquipo'},
+            {data: 'Identificacion'},
+            {data: 'CodTamano'},
+            {data: 'NumMarchamo1'},
+            {data: 'NumMarchamo2'},
+            {data: 'Peso'},
+            {data: 'action'}
+
+        ]
+
+    });
+  });
+
+
+  $("#form_equipos").submit(function (e) { 
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "{{ route('equipos.actualizar') }} ",
+            data: $("#form_equipos").serialize(),
+            success: function (response) {
+                toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            }
+        });
+    });
+    
 </script>
 @endsection
 
@@ -33,7 +77,7 @@
                 
             @endforeach
             <div class="card-body">
-                <input type="text" value="{{$CodExpediente}} ">
+                <input type="text" value="{{$CodExpediente}}">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Expediente;
+use App\Models\equipos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DataTables;
 
 class ExpedienteMod extends Controller
 {
@@ -17,6 +19,22 @@ class ExpedienteMod extends Controller
     public function index(Request $request){
         $CodEmpresa = session('CodEmpresa');
         $CodExpediente = $request->CodExpediente;
+
+
+        if ($request->ajax()) {
+            if ($request->ajax()) {
+                $CodExpediente = $request->CodExpediente;
+                $Equipos = DB::select("SELECT * FROM exp_equipos WHERE Estado > 0 AND CodExpediente = $CodExpediente  ");
+                return DataTables::of($Equipos)
+                        ->addColumn('action',function($Equipos){
+                            $op = " <button class='btn btn-danger' name='delete' id=''>Eliminar</button> ";
+                            $op .= "";
+                            return $op;
+                        })
+                        ->rawColumns(['action'])
+                        ->make(true);
+            }
+        }
 
         $queryExp = "SELECT  exp.*,
                             emb.Cliente as Embarcador, 
@@ -50,5 +68,10 @@ class ExpedienteMod extends Controller
                                                     'ListadoDescripEquip',
                                                     'ListadoNav',
                                                     'LugaresBL'));
+    }
+
+    public function EquiposActualizar(Request $request){
+
+
     }
 }
