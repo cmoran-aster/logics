@@ -38,19 +38,65 @@
     });
   });
 
-
-  $("#form_equipos").submit(function (e) { 
+  /* para agregar*/
+    $("#form_equipos").submit(function (e) { 
         e.preventDefault();
         $.ajax({
             type: "POST",
-            url: "{{ route('equipos.actualizar') }} ",
+            url: "{{ route('equipos.agregar') }} ",
             data: $("#form_equipos").serialize(),
             success: function (response) {
-                toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+                if (response == 1) {
+                    Logics.alertar('Se guardo el equipo','v');
+                    $("#form_equipos")[0].reset();
+                    $("#table-equipos").DataTable().ajax.reload();
+                }else{
+                    Logics.alertar(response,'r');
+                }
+
             }
         });
     });
-    
+  
+ /* para eliminar */
+$(document).on('click', '.delete', function() {
+    var CodEquipo = $(this).attr('id');
+    Logics.confirmacion('Desea continuar con la eliminación del equipo?','EliminarEquipo',CodEquipo)
+});
+
+function Eliminar(funcion,Cod) { 
+    if (funcion == "EliminarEquipo") {
+        EliminarEquipo(Cod);
+    }
+}
+
+function EliminarEquipo(CodEquipo) {
+
+    $.ajax({
+            type: "POST",
+            url: "{{ route('equipos.actualizar') }} ",
+            data: {
+                'CodEquipo': CodEquipo,
+                'CodExpediente': {{$CodExpediente}},
+                '_token': $("#token"+CodEquipo).val(),
+            },
+            beforeSend:function(){
+                //$("#modalCargando").modal('show');
+            },
+            success: function (response) {
+                if (response == 1) {
+                    Logics.alertar('Se elimino correctamente el equipo','v');
+                    $("#table-equipos").DataTable().ajax.reload();
+                }else{
+                    Logics.alertar(response,'r');
+                }
+            }
+        });
+}
+  
+
+  
+
 </script>
 @endsection
 
@@ -66,6 +112,9 @@
 @include('includes.mensajes.error')
 
 @section('CardPre')
+
+
+
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">

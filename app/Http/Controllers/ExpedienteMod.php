@@ -27,8 +27,8 @@ class ExpedienteMod extends Controller
                 $Equipos = DB::select("SELECT * FROM exp_equipos WHERE Estado > 0 AND CodExpediente = $CodExpediente  ");
                 return DataTables::of($Equipos)
                         ->addColumn('action',function($Equipos){
-                            $op = " <button class='btn btn-danger' name='delete' id=''>Eliminar</button> ";
-                            $op .= "";
+                            $op = " <button class='btn btn-danger delete' name='delete' id='".$Equipos->CodEquipo."'>Eliminar</button> ";
+                            $op .= " <input type='hidden' name='_token' id=\"token".$Equipos->CodEquipo."\" value=\"".csrf_token()."\" />";
                             return $op;
                         })
                         ->rawColumns(['action'])
@@ -70,8 +70,36 @@ class ExpedienteMod extends Controller
                                                     'LugaresBL'));
     }
 
+
+    public function equipoagregar(Request $request){
+
+        $CodExpediente = $request->CodExpediente;
+        $Indenti       = trim($request->Identificacion);
+
+        $PruebaDeEquipo = DB::select("SELECT COUNT(*) as TotalEncontrado FROM exp_equipos WHERE CodExpediente = $CodExpediente  AND Identificacion = '$Indenti'");
+        foreach ($PruebaDeEquipo as $resultado) {
+            $encon = $resultado->TotalEncontrado;
+        }
+        if ($encon > 0) {
+            return "Este equipo ya fue ingresado en este expediente";
+        }
+        //para agregar otro dato al array request
+        $request->merge(['UsuarioCreacion' => auth()->user()->usuario]);
+        equipos::create($request->all());
+        return 1;
+    }
+
     public function EquiposActualizar(Request $request){
 
+        $CodEquipo     = $request->CodEquipo;
+        $CodExpediente = $request->CodExpediente;
+
+        $datosEquipos = request()->except(['_token','_method']);
+        equipos::where('CodEquipo', $CodEquipo)
+              ->where('CodExpediente', $CodExpediente)
+              ->update(['Estado' => 0]);
+
+              return 1;
 
     }
 }

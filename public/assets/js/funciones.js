@@ -1,3 +1,4 @@
+
 var Logics = function () {
     return{
         ValidacionGeneral: function (id, reglas, mensajes) {
@@ -47,6 +48,44 @@ var Logics = function () {
                 },
                 submitHandler: function (form){
                     return true;
+                }
+            });
+        },
+        alertar(mensaje,color){
+            if(color == "v"){
+                toastr.success(mensaje);
+            }
+            if(color == "r"){
+                toastr.error(mensaje);
+            }
+            if(color == "c"){
+                toastr.info(mensaje);
+            }
+            if(color == "a"){
+                toastr.warning(mensaje);
+            }
+            
+        },
+        confirmacion(mensaje,funcion,Cod){
+            $.confirm({
+                title: 'Confirmación!',
+                type: 'orange',
+                theme: 'material',
+                escapeKey: true,
+                content: mensaje,
+                buttons: {
+                    confirmar:{
+                        btnClass: 'btn-success',
+                        action: function(){
+                            Eliminar(funcion,Cod);
+                        }
+                    },
+                    cancelar:{
+                        btnClass: 'btn-danger',
+                        action: function(){
+                            
+                        }
+                    }
                 }
             });
         }

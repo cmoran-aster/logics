@@ -47,8 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/expediente-mod/{CodExpediente}',[ExpedienteMod::class,'index'])->name('ModExpedientes');
     Route::resource('/expedienteMod', ExpedienteMod::class);
 
-    Route::post('/expediente-mod/equipos',[ExpedienteMod::class,'EquiposActualizar'])->name('equipos.actualizar');
     Route::get('/expediente-mod/equipos',[ExpedienteMod::class,'index'])->name('equipos.index');
+    Route::post('/expediente-mod/equipos/agregar',[ExpedienteMod::class,'equipoagregar'])->name('equipos.agregar');
+    Route::post('/expediente-mod/equipos/actualizar',[ExpedienteMod::class,'EquiposActualizar'])->name('equipos.actualizar');
+    
 });
 
 

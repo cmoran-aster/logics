@@ -135,6 +135,7 @@ class ExpedienteController extends Controller
             $CorrelativoActual = 1;
         }
 
+        //para agregar otro dato al array request
         $request->merge(['NumExpediente' => $CorrelativoActual, 'AnoExpediente' => $anoActu]);
 
 

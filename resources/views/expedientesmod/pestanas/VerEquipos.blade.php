@@ -9,11 +9,11 @@
     <div class="col-md-2">
         <label for="">No. Equipo</label>
         <input type="text" class="form-control requerido" id="Identificacion" name="Identificacion" required>
-        <input type="hidden" id="CodExpediente" value="{{$CodExpediente}}" required>
+        <input type="hidden" id="CodExpediente" name="CodExpediente" value="{{$CodExpediente}}" required>
     </div>
     <div class="col-md-3">
         <label for="">Tipo</label>
-        <select name="CodigoDescripcionEquipo" id="CodigoDescripcionEquipo" class="form-control select2bs4" >
+        <select name="CodigoDescripcionEquipo" id="CodigoDescripcionEquipo" class="form-control" >
             <option value="">---</option>
             @foreach ($ListadoDescripEquip as $ListadoDescripEquipos)
                 <option value="{{ $ListadoDescripEquipos->CodigoDescripcionEquipo; }}" >{{ $ListadoDescripEquipos->DescripcionEquipo; }}</option>
@@ -52,7 +52,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
             <table class="table table-sm table-bordered" id="table-equipos">
                 <thead>
                     <tr>
