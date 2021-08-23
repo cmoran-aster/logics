@@ -167,7 +167,7 @@ class ExpedienteController extends Controller
      */
     public function edit(Expediente $expediente)
     {
-        //
+        dd($expediente);
     }
 
     /**

@@ -57,6 +57,9 @@ class ExpedienteMod extends Controller
         $ListadoDescripEquip = DB::select("SELECT * FROM c_equiposdescripciones ");
         $ListadoNav = DB::select("SELECT * FROM c_navieras ");
         $LugaresBL = DB::select("SELECT * FROM c_lugarespresentacionbl");
+        $embalajeList = DB::select("SELECT * FROM c_embalajestipos");
+
+        
 
 
         return view("expedientesmod.index",compact('ExpedientesListado',
@@ -67,7 +70,8 @@ class ExpedienteMod extends Controller
                                                     'ListadoPuertos',
                                                     'ListadoDescripEquip',
                                                     'ListadoNav',
-                                                    'LugaresBL'));
+                                                    'LugaresBL',
+                                                    'embalajeList'));
     }
 
 
@@ -102,4 +106,48 @@ class ExpedienteMod extends Controller
               return 1;
 
     }
+
+    public function embarcadoroconsignatario(Request $request){
+
+        $area       = $request->area;
+        $cod        = $request->cod;
+        $expediente = $request->expediente;
+
+        $SqlText = "SELECT Cliente, DirOficina, Nit 
+                    FROM cl_clientes cli 
+                    INNER JOIN lgs_expedientes exp ON cli.CodCliente = ";
+		if ($area == 'embarcador') {
+			$SqlText .= 'exp.CodEmbarcador';
+		} 
+        if ($area== 'consigantario') {
+			$SqlText .= 'exp.CodConsignatario';
+		}
+		$SqlText .= " WHERE CodExpediente = $expediente ";
+        
+		$Cliente = DB::select($SqlText);
+
+        $resultado = array();
+        foreach ($Cliente as $row) {
+            $Cliente[0] = substr($row->Cliente, 0, 35); 
+            $Cliente[1] = substr($row->Cliente, 35, 35); 
+            $Cliente[2] = substr($row->DirOficina, 0, 35); 
+            $Cliente[3] = substr($row->DirOficina, 35, 35); 
+            $Cliente[4] = substr($row->DirOficina, 70, 35); 
+            $Cliente[5] = $row->Nit;    
+        }
+
+        $fila = array($Cliente[0], $Cliente[1], $Cliente[2], $Cliente[3], $Cliente[4], $Cliente[5]);
+		array_push($resultado, $Cliente);
+
+        return $resultado;
+
+    }
+
+    public function DatosCuscarUpdate(Request $request){
+
+
+    }
+
+
+    
 }

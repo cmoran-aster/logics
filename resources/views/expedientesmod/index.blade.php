@@ -93,7 +93,43 @@ function EliminarEquipo(CodEquipo) {
             }
         });
 }
-  
+
+function importar(area,cod,expediente) {
+    
+
+    $.ajax({
+        type: "POST",
+        url: "{{ route('emboconsi.importar') }} ",
+        data: {
+            'area': area,
+            'cod': cod,
+            'expediente': expediente,
+            '_token': $("#tokenCuscar").val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+
+            if (area == 'embarcador') {
+			    Nombre = '#Embarcador';
+            } else {
+                Nombre = '#Consignatario';
+                $('#NitConsignatario').val(response[0][5]);
+            }
+
+            for (i = 0; i<=4; i++) {
+			    if (response[0][i] !== false) {
+			    	$(Nombre + (i+1)).val(response[0][i]);
+			    } else{
+				    $(Nombre + (i+1)).val('');
+			    }
+		    }
+            
+            console.log(response[0][0]);
+        }
+    });
+}
 
   
 
@@ -255,7 +291,7 @@ function EliminarEquipo(CodEquipo) {
         </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerDatosCuscar" role="tabpanel" aria-labelledby="VerDatosCuscar-tab">
-            VerDatosCuscar
+            @include('expedientesmod.pestanas.VerDatosCuscar')
         </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerGastos" role="tabpanel" aria-labelledby="VerGastos-tab">
