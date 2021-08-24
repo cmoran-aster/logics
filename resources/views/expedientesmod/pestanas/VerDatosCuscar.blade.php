@@ -167,12 +167,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label ">Temperatura:</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="Temperatura" name="Temperatura" value="{{$Expedientes->Temperatura}}">
-                        </div>
-                        <div class="col-sm-2">
-                            <h6><b>&deg;C</b></h6>
+                        <label class="col-sm-5 col-form-label ">Temperatura:</label>
+                        <div class="col-sm-7">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="Temperatura" name="Temperatura" value="{{$Expedientes->Temperatura}}">
+                                <div class="input-group-append">
+                                  <span class="input-group-text"><b>&deg;C</b></span>
+                                </div>
+                              </div>
                         </div>
                     </div>
                 </div>

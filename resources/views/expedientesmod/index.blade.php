@@ -6,11 +6,9 @@
 <script type="text/javascript">
   Logics.ValidacionGeneral('form-general');
   Logics.ValidacionGeneral('form-Expediente');
-  
-
-  
-
   $(document).ready(function () {
+    
+
     var tablaequipos = $("#table-equipos").DataTable({
         processing:true,
         serverSide:true,
@@ -144,11 +142,11 @@ function importar(area,cod,expediente) {
 @endsection
 
 
-@include('includes.mensajes.exito')
-@include('includes.mensajes.error')
+
 
 @section('CardPre')
-
+@include('includes.mensajes.exito')
+@include('includes.mensajes.error')
 
 
 <div class="row">
@@ -162,81 +160,129 @@ function importar(area,cod,expediente) {
                 
             @endforeach
             <div class="card-body">
-                <input type="text" value="{{$CodExpediente}}">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label text-right">No. Expediente:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{str_pad($Expedientes->NumExpediente,5,"0",STR_PAD_LEFT)}}-{{$Expedientes->AnoExpediente}}" disabled>
+                
+                <form id="form-expediente-general" action="{{route('expedientes.update',$CodExpediente)}}" method="POST">
+                    @csrf
+                    {{method_field('PATCH')}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">No. Expediente:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="{{str_pad($Expedientes->NumExpediente,5,"0",STR_PAD_LEFT)}}-{{$Expedientes->AnoExpediente}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">No. BL:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{{$Expedientes->NumBL}}" id="NumBL" name="NumBL">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label text-right">No. BL:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{{$Expedientes->NumBL}}">
+            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">No. Booking:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="{{$Expedientes->NumBooking}}" id="NumBooking" name="NumBooking">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">No. BL Master:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{{$Expedientes->NumBLMaster}}" id="NumBLMaster" name="NumBLMaster">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label text-right">No. Booking:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{$Expedientes->NumBooking}}">
+            
+                    <hr>
+            
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label ">Embarcador:</label>
+                                <div class="col-sm-10">
+                                    <select name="CodEmbarcador" id="CodEmbarcador" class="form-control  select2bs4" required>
+                                        <option value="">---</option>
+                                        @foreach ($ListadoDeEmbarcador as $EmbarcadorList)
+                                            @php
+                                                if ($Expedientes->CodEmbarcador  == $EmbarcadorList->CodCliente){
+                                                    $Select = "SELECTED";
+                                                }else{
+                                                    $Select = "";
+                                                }
+                                            @endphp
+                                            <option value="{{ $EmbarcadorList->CodCliente; }}" {{$Select}} >{{ $EmbarcadorList->Cliente; }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label text-right">No. BL Master:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control">
+            
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label ">Consignatario:</label>
+                                <div class="col-sm-10">
+                                    <select name="CodConsignatario" id="CodConsignatario" class="form-control select2bs4" required>
+                                        <option value="">---</option>
+                                        @foreach ($ListadoDeEmbarcador as $EmbarcadorList)
+                                            @php
+                                                if ($Expedientes->CodConsignatario  == $EmbarcadorList->CodCliente){
+                                                    $Select = "SELECTED";
+                                                }else{
+                                                    $Select = "";
+                                                }
+                                            @endphp
+                                            <option value="{{ $EmbarcadorList->CodCliente; }}" {{$Select}}>{{ $EmbarcadorList->Cliente; }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
-                <hr>
-        
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label ">Embarcador:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  value="{{$Expedientes->Embarcador}}">
+            
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label ">Agente:</label>
+                                <div class="col-sm-10">
+                                    <select name="CodAgente" id="CodAgente" class="form-control select2bs4" required>
+                                        <option value="">---</option>
+                                        @foreach ($ListadoDeAgentes as $AgentesList)
+                                            @php
+                                                if ($Expedientes->CodAgente  == $AgentesList->CodCliente){
+                                                    $Select = "SELECTED";
+                                                }else{
+                                                    $Select = "";
+                                                }
+                                            @endphp
+                                            <option value="{{ $AgentesList->CodCliente; }}" {{$Select}}>{{ $AgentesList->Cliente; }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label ">Consignatario:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{{$Expedientes->Consignatario}}">
-                            </div>
+
+                    <div class="row">
+                        <div class="col-md-12"><br></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            @include('includes.botones.boton-crear')
                         </div>
                     </div>
-                </div>
-        
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label ">Agente:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{{$Expedientes->Agente}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-        
+                </form>
             </div>
         </div>
     </div>
@@ -263,10 +309,16 @@ function importar(area,cod,expediente) {
             <a class="nav-link " id="VerDatosCuscar-tab" data-toggle="pill" href="#VerDatosCuscar" role="tab" aria-controls="VerDatosCuscar" aria-selected="true">Ver Datos Cuscar</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Ver Gastos</a>
+            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costos USD</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ver Cargos</a>
+            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso USD</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costo GTQ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso GTQ</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="VerCargosNaviera-tab" data-toggle="pill" href="#VerCargosNaviera" role="tab" aria-controls="VerCargosNaviera" aria-selected="true">Ver Cargos Naviera</a>
@@ -295,7 +347,7 @@ function importar(area,cod,expediente) {
         </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerGastos" role="tabpanel" aria-labelledby="VerGastos-tab">
-            VerGastos
+            @include('expedientesmod.pestanas.VerGastos')
         </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerCargos" role="tabpanel" aria-labelledby="VerCargos-tab">

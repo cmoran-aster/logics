@@ -96,3 +96,6 @@ $('select').select2({}).on("change", function (e) {
     $(this).valid()
   });
 
+  setTimeout(function(){
+    $("#alertaExito").hide('slow');
+},3500);

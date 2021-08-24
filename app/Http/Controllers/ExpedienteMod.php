@@ -50,6 +50,8 @@ class ExpedienteMod extends Controller
 
         $ExpedientesListado = DB::select($queryExp);
 
+
+
         $ListadoPaises = DB::select("SELECT * FROM c_paises ORDER BY Pais ");
         $ListadoDeAgentes = DB::select("SELECT * FROM cl_clientes WHERE Estado > 0 AND Agente = 1 ORDER BY Cliente ");
         $ListadoDeEmbarcador = DB::select("SELECT * FROM cl_clientes WHERE Estado > 0 AND Proveedor = 1 ORDER BY Cliente ");
