@@ -245,8 +245,19 @@ function Eliminargasto(CodGasto) {
     <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="card border-dark mb-3" style="border:solid 1px #1c375a !important;">
-            <div class="card-header text-center text-white" style="background-color: #2765a3 !important;">
-                <h5>Detalle del Expediente</h5>
+            <div class="card-header text-white" style="background-color: #2765a3 !important;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Detalle del Expediente</h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                
             </div>
             @foreach ($ExpedientesListado as $Expedientes)
                 
@@ -401,11 +412,12 @@ function Eliminargasto(CodGasto) {
             <a class="nav-link " id="VerDatosCuscar-tab" data-toggle="pill" href="#VerDatosCuscar" role="tab" aria-controls="VerDatosCuscar" aria-selected="true">Ver Datos Cuscar</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costos USD</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso USD</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costos USD</a>
+        </li>
+        
         <li class="nav-item">
             <a class="nav-link " id="VerGastos3-tab" data-toggle="pill" href="#VerGastos3" role="tab" aria-controls="VerGastos3" aria-selected="true">Costo GTQ</a>
         </li>
@@ -438,12 +450,20 @@ function Eliminargasto(CodGasto) {
             @include('expedientesmod.pestanas.VerDatosCuscar')
         </div>
         <!-- **** -->
-        <div class="tab-pane fade " id="VerGastos" role="tabpanel" aria-labelledby="VerGastos-tab">
-            @include('expedientesmod.pestanas.VerGastos')
+        <div class="tab-pane fade " id="VerCargos" role="tabpanel" aria-labelledby="VerCargos-tab">
+            @include('expedientesmod.pestanas.VerCargosUsd')
         </div>
         <!-- **** -->
-        <div class="tab-pane fade " id="VerCargos" role="tabpanel" aria-labelledby="VerCargos-tab">
-            VerCargos
+        <div class="tab-pane fade " id="VerGastos" role="tabpanel" aria-labelledby="VerGastos-tab">
+            @include('expedientesmod.pestanas.VerGastosUsd')
+        </div>
+         <!-- **** -->
+         <div class="tab-pane fade " id="VerGastos3" role="tabpanel" aria-labelledby="VerGastos3-tab">
+            gastos gt
+        </div>
+        <!-- **** -->
+        <div class="tab-pane fade " id="VerCargos3" role="tabpanel" aria-labelledby="VerCargos3-tab">
+            cargos gt
         </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerCargosNaviera" role="tabpanel" aria-labelledby="VerCargosNaviera-tab">

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableGastostipo extends Migration
+class CreateTableCtCCargostipos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTableGastostipo extends Migration
      */
     public function up()
     {
-        Schema::create('ct_c_gastostipos', function (Blueprint $table) {
-            $table->id('CodTipoGasto');
+        Schema::create('ct_c_cargostipos', function (Blueprint $table) {
+            $table->id('CodTipoCargo');
             $table->integer('CodEmpresa');
             $table->integer('CodNomenclatura');
-            $table->string('CodigoTipoGasto',5);
-            $table->string('TipoGasto',50);
+            $table->string('CodigoTipoCargo');
+            $table->string('TipoCargo',50);
             $table->integer('Estado')->default(1);
         });
     }
@@ -30,6 +30,6 @@ class CreateTableGastostipo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ct_c_gastostipos');
+        Schema::dropIfExists('ct_c_cargostipos');
     }
 }

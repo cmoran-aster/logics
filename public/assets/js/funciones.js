@@ -92,7 +92,7 @@ var Logics = function () {
     }
 }();
 
-$('select').select2({}).on("change", function (e) {
+$('.select2bs4').select2().on("change", function (e) {
     $(this).valid()
   });
 

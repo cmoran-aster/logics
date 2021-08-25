@@ -50,7 +50,14 @@
                         <select name="Moneda" id="Moneda" class="form-control" >
                             <option value="">---</option>
                             @foreach ($MonedasL as $MonedasList)
-                                <option value="{{ $MonedasList->CodigoMoneda; }}" >{{ $MonedasList->CodigoMoneda; }}</option>
+                             @php
+                                    if ($MonedasList->CodigoMoneda == "USD"){
+                                        $selected = "SELECTED";
+                                    }else{
+                                        $selected = "";
+                                    }
+                                @endphp
+                                <option value="{{ $MonedasList->CodigoMoneda; }}" {{$selected}} >{{ $MonedasList->CodigoMoneda; }}</option>
                             @endforeach
                         </select>
                     </div>
