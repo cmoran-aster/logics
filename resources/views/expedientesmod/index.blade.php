@@ -4,59 +4,65 @@
 @endsection
 @section('script')
 <script type="text/javascript">
-  Logics.ValidacionGeneral('form-general');
-  Logics.ValidacionGeneral('form-Expediente');
-  $(document).ready(function () {
-    
+Logics.ValidacionGeneral('form-general');
+Logics.ValidacionGeneral('form-Expediente');
 
-    var tablaequipos = $("#table-equipos").DataTable({
-        processing:true,
-        serverSide:true,
-        "searching": false,//quita el buscador
-        "autoWidth": false,//quita el auto ajuste
-        "bPaginate": false,//quita el paginador
-        "lengthChange": false,// quita el filtro
-        ajax:{
-            url: "{{ route('equipos.index') }} ",
-            data: {
-                CodExpediente: {{$CodExpediente}}
-            }
-        },
-        columns:[
-            {data: 'CodEquipo'},
-            {data: 'Identificacion'},
-            {data: 'CodTamano'},
-            {data: 'NumMarchamo1'},
-            {data: 'NumMarchamo2'},
-            {data: 'Peso'},
-            {data: 'action'}
+$(document).ready(function () {
+    tablaEquipos();
+    tablaCostoUSD();
+});
 
-        ]
+// ESTO ES PARA EL FORMULARIO DE EQUIPOS  //////
+function tablaEquipos() {
+var tablaequipos = $("#table-equipos").DataTable({
+    processing:true,
+    serverSide:true,
+    "searching": false,//quita el buscador
+    "autoWidth": false,//quita el auto ajuste
+    "bPaginate": false,//quita el paginador
+    "lengthChange": false,// quita el filtro
+    ajax:{
+        url: "{{ route('equipos.index') }} ",
+        data: {
+            CodExpediente: {{$CodExpediente}},
+            Datos: 'EquiposTable'
+        }
+    },
+    columns:[
+        {data: 'CodEquipo'},
+        {data: 'Identificacion'},
+        {data: 'CodTamano'},
+        {data: 'NumMarchamo1'},
+        {data: 'NumMarchamo2'},
+        {data: 'Peso'},
+        {data: 'action'}
+
+    ]
 
     });
-  });
+}
 
-  /* para agregar*/
-    $("#form_equipos").submit(function (e) { 
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: "{{ route('equipos.agregar') }} ",
-            data: $("#form_equipos").serialize(),
-            success: function (response) {
-                if (response == 1) {
-                    Logics.alertar('Se guardo el equipo','v');
-                    $("#form_equipos")[0].reset();
-                    $("#table-equipos").DataTable().ajax.reload();
-                }else{
-                    Logics.alertar(response,'r');
-                }
-
+/* para agregar*/
+$("#form_equipos").submit(function (e) { 
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ route('equipos.agregar') }} ",
+        data: $("#form_equipos").serialize(),
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se guardo el equipo','v');
+                $("#form_equipos")[0].reset();
+                $("#table-equipos").DataTable().ajax.reload();
+            }else{
+                Logics.alertar(response,'r');
             }
-        });
+
+        }
     });
+});
   
- /* para eliminar */
+/* para eliminar */
 $(document).on('click', '.delete', function() {
     var CodEquipo = $(this).attr('id');
     Logics.confirmacion('Desea continuar con la eliminación del equipo?','EliminarEquipo',CodEquipo)
@@ -66,30 +72,33 @@ function Eliminar(funcion,Cod) {
     if (funcion == "EliminarEquipo") {
         EliminarEquipo(Cod);
     }
+    if (funcion == "Eliminargasto") {
+        Eliminargasto(Cod);
+    }
 }
 
 function EliminarEquipo(CodEquipo) {
 
     $.ajax({
-            type: "POST",
-            url: "{{ route('equipos.actualizar') }} ",
-            data: {
-                'CodEquipo': CodEquipo,
-                'CodExpediente': {{$CodExpediente}},
-                '_token': $("#token"+CodEquipo).val(),
-            },
-            beforeSend:function(){
-                //$("#modalCargando").modal('show');
-            },
-            success: function (response) {
-                if (response == 1) {
-                    Logics.alertar('Se elimino correctamente el equipo','v');
-                    $("#table-equipos").DataTable().ajax.reload();
-                }else{
-                    Logics.alertar(response,'r');
-                }
+        type: "POST",
+        url: "{{ route('equipos.actualizar') }} ",
+        data: {
+            'CodEquipo': CodEquipo,
+            'CodExpediente': {{$CodExpediente}},
+            '_token': $("#token"+CodEquipo).val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se elimino correctamente el equipo','v');
+                $("#table-equipos").DataTable().ajax.reload();
+            }else{
+                Logics.alertar(response,'r');
             }
-        });
+        }
+    });
 }
 
 function importar(area,cod,expediente) {
@@ -110,26 +119,109 @@ function importar(area,cod,expediente) {
         success: function (response) {
 
             if (area == 'embarcador') {
-			    Nombre = '#Embarcador';
+                Nombre = '#Embarcador';
             } else {
                 Nombre = '#Consignatario';
                 $('#NitConsignatario').val(response[0][5]);
             }
 
             for (i = 0; i<=4; i++) {
-			    if (response[0][i] !== false) {
-			    	$(Nombre + (i+1)).val(response[0][i]);
-			    } else{
-				    $(Nombre + (i+1)).val('');
-			    }
-		    }
+                if (response[0][i] !== false) {
+                    $(Nombre + (i+1)).val(response[0][i]);
+                } else{
+                    $(Nombre + (i+1)).val('');
+                }
+            }
             
             console.log(response[0][0]);
         }
     });
 }
 
-  
+
+
+// ESTO ES PARA EL FORMULARIO DE COSTO USD  //////
+function tablaCostoUSD() {
+    var tablaCostoUSD = $("#table-costos-usd").DataTable({
+        processing:true,
+        serverSide:true,
+        "searching": false,//quita el buscador
+        "autoWidth": false,//quita el auto ajuste
+        "bPaginate": false,//quita el paginador
+        "lengthChange": false,// quita el filtro
+        ajax:{
+            url: "{{ route('equipos.index') }} ",
+            data: {
+                CodExpediente: {{$CodExpediente}},
+                Datos: 'CostoUsdTable'
+            }
+        },
+        columns:[
+            {data: 'CodGasto'},
+            {data: 'Cliente'},
+            {data: 'FechaGasto'},
+            {data: 'NumFactura'},
+            {data: 'TipoGasto'},
+            {data: 'Descripcion'},
+            {data: 'Moneda'},
+            {data: 'Gasto'},
+            {data: 'action'}
+        ]
+
+    });
+}
+
+/* para agregar*/
+$("#form_costos_usd").submit(function (e) { 
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ route('costousd.agregar') }} ",
+        data: $("#form_costos_usd").serialize(),
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se guardo el costo USD correctamente','v');
+                $("#form_costos_usd")[0].reset();
+                $("#table-costos-usd").DataTable().ajax.reload();
+            }else{
+                Logics.alertar(response,'r');
+            }
+
+        }
+    });
+});
+
+/* para eliminar */
+$(document).on('click', '.DeleteCobroUsd', function() {
+    var CodGasto = $(this).attr('id');
+    Logics.confirmacion('Desea continuar con la eliminación del COSTO (USD)?','Eliminargasto',CodGasto)
+});
+
+    
+
+function Eliminargasto(CodGasto) {
+
+    $.ajax({
+            type: "POST",
+            url: "{{ route('costousd.actualizar') }} ",
+            data: {
+                'CodGasto': CodGasto,
+                'CodExpediente': {{$CodExpediente}},
+                '_token': $("#token"+CodGasto).val(),
+            },
+            beforeSend:function(){
+                //$("#modalCargando").modal('show');
+            },
+            success: function (response) {
+                if (response == 1) {
+                    Logics.alertar('Se elimino correctamente el Costo(USD)','v');
+                    $("#table-equipos").DataTable().ajax.reload();
+                }else{
+                    Logics.alertar(response,'r');
+                }
+            }
+        });
+}
 
 </script>
 @endsection
@@ -315,10 +407,10 @@ function importar(area,cod,expediente) {
             <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso USD</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costo GTQ</a>
+            <a class="nav-link " id="VerGastos3-tab" data-toggle="pill" href="#VerGastos3" role="tab" aria-controls="VerGastos3" aria-selected="true">Costo GTQ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso GTQ</a>
+            <a class="nav-link " id="VerCargos3-tab" data-toggle="pill" href="#VerCargos3" role="tab" aria-controls="VerCargos3" aria-selected="true">Ingreso GTQ</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="VerCargosNaviera-tab" data-toggle="pill" href="#VerCargosNaviera" role="tab" aria-controls="VerCargosNaviera" aria-selected="true">Ver Cargos Naviera</a>

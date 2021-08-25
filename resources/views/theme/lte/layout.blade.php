@@ -86,12 +86,14 @@
     <script src="{{asset("assets/$theme/plugins/jquery/jquery.min.js")}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset("assets/$theme/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
-        <!-- Select2 -->
-        <script src="{{asset("assets/$theme/plugins/select2/js/select2.full.min.js")}}"></script>
+    
     <!-- jquery-validation -->
     <script src="{{asset("assets/$theme/plugins/jquery-validation/jquery.validate.min.js")}}"></script>
     <script src="{{asset("assets/$theme/plugins/jquery-validation/additional-methods.min.js")}}"></script>
     <script src="{{asset("assets/$theme/plugins/jquery-validation/localization/messages_es.min.js")}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset("assets/$theme/plugins/select2/js/select2.full.min.js")}}"></script>
+    <!-- Mis Funciones -->
     <script src="{{asset("assets/js/funciones.js")}}"></script>
     <!-- overlayScrollbars -->
     <script src="{{asset("assets/$theme/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>

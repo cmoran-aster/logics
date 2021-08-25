@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expediente;
 use App\Models\equipos;
+use App\Models\gastos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -20,21 +21,45 @@ class ExpedienteMod extends Controller
         $CodEmpresa = session('CodEmpresa');
         $CodExpediente = $request->CodExpediente;
 
-
-        if ($request->ajax()) {
             if ($request->ajax()) {
                 $CodExpediente = $request->CodExpediente;
-                $Equipos = DB::select("SELECT * FROM exp_equipos WHERE Estado > 0 AND CodExpediente = $CodExpediente  ");
-                return DataTables::of($Equipos)
-                        ->addColumn('action',function($Equipos){
-                            $op = " <button class='btn btn-danger delete' name='delete' id='".$Equipos->CodEquipo."'>Eliminar</button> ";
-                            $op .= " <input type='hidden' name='_token' id=\"token".$Equipos->CodEquipo."\" value=\"".csrf_token()."\" />";
-                            return $op;
-                        })
-                        ->rawColumns(['action'])
-                        ->make(true);
+                $Datos = $request->Datos;
+
+                if ($Datos == "EquiposTable") {
+                    $Equipos = DB::select("SELECT * FROM exp_equipos WHERE Estado > 0 AND CodExpediente = $CodExpediente  ");
+                    return DataTables::of($Equipos)
+                            ->addColumn('action',function($Equipos){
+                                $op = " <button class='btn btn-danger delete' name='delete' id='".$Equipos->CodEquipo."'>Eliminar</button> ";
+                                $op .= " <input type='hidden' name='_token' id=\"token".$Equipos->CodEquipo."\" value=\"".csrf_token()."\" />";
+                                return $op;
+                            })
+                            ->rawColumns(['action'])
+                            ->make(true);
+                }
+
+                if ($Datos == "CostoUsdTable") {
+                    $queryCobrosUSD = "SELECT g.*,cl.Cliente,cg.TipoGasto
+                                FROM exp_gastos g
+                                LEFT JOIN cl_clientes cl ON g.CodProveedor = cl.CodCliente
+                                LEFT JOIN ct_c_gastostipos cg on g.CodigoTipoGasto = cg.CodigoTipoGasto
+                                WHERE g.CodExpediente = $CodExpediente AND g.Estado > 0";
+
+                    $CobrosUSD = DB::select($queryCobrosUSD);
+
+                    
+                        return DataTables::of($CobrosUSD)
+                            ->addColumn('action',function($CobrosUSD){
+                                $op = " <button class='btn btn-danger DeleteCobroUsd' name='delete' id='".$CobrosUSD->CodGasto."'>Eliminar</button> ";
+                                $op .= " <input type='hidden' name='_token' id=\"token".$CobrosUSD->CodGasto."\" value=\"".csrf_token()."\" />";
+                                return $op;
+                            })
+                            ->rawColumns(['action'])
+                            ->make(true);
+                    
+                }
+                
             }
-        }
+        
 
         $queryExp = "SELECT  exp.*,
                             emb.Cliente as Embarcador, 
@@ -60,10 +85,9 @@ class ExpedienteMod extends Controller
         $ListadoNav = DB::select("SELECT * FROM c_navieras ");
         $LugaresBL = DB::select("SELECT * FROM c_lugarespresentacionbl");
         $embalajeList = DB::select("SELECT * FROM c_embalajestipos");
-
+        $gastosTipo = DB::select("SELECT * FROM ct_c_gastostipos WHERE Estado > 0 AND CodEmpresa = $CodEmpresa");
+        $MonedasL = DB::select("SELECT * FROM c_monedas");
         
-
-
         return view("expedientesmod.index",compact('ExpedientesListado',
                                                     'CodExpediente',
                                                     'ListadoPaises',
@@ -73,10 +97,12 @@ class ExpedienteMod extends Controller
                                                     'ListadoDescripEquip',
                                                     'ListadoNav',
                                                     'LugaresBL',
-                                                    'embalajeList'));
+                                                    'embalajeList',
+                                                    'gastosTipo',
+                                                    'MonedasL'));
     }
 
-
+    
     public function equipoagregar(Request $request){
 
         $CodExpediente = $request->CodExpediente;
@@ -95,7 +121,7 @@ class ExpedienteMod extends Controller
         return 1;
     }
 
-    public function EquiposActualizar(Request $request){
+    public function EquiposActualizar(Request $request){// sirve para actualizar o para eliminar
 
         $CodEquipo     = $request->CodEquipo;
         $CodExpediente = $request->CodExpediente;
@@ -145,9 +171,16 @@ class ExpedienteMod extends Controller
 
     }
 
-    public function DatosCuscarUpdate(Request $request){
+    
 
+    public function CostoUsdAgregar(Request $request){
 
+        $CodExpediente = $request->CodExpediente;
+        
+        //para agregar otro dato al array request
+        $request->merge(['UsuarioCreacion' => auth()->user()->usuario]);
+        gastos::create($request->all());
+        return 1;
     }
 
 
