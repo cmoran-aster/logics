@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/expediente-mod/costousd/agregar',[ExpedienteMod::class,'CostoUsdAgregar'])->name('costousd.agregar');
     Route::post('/expediente-mod/costousd/actualizar',[ExpedienteMod::class,'CostoUsdActualizar'])->name('costousd.actualizar');
+
+    Route::post('/expediente-mod/ingresousd/agregar',[ExpedienteMod::class,'IngresoUsdAgregar'])->name('ingresousd.agregar');
+    Route::post('/expediente-mod/ingresousd/actualizar',[ExpedienteMod::class,'IngresoUsdActualizar'])->name('ingresousd.actualizar');
     
 
 });

@@ -10,16 +10,16 @@
         <div class="col-md-2">
             <div class="form-group">
             <label for="">Fecha Cargo</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="FechaCargo" id="FechaCargo">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Tipo Ingreso</label>
-                <select  class="form-control select2bs4" >
+                <select  class="form-control select2bs4" id="CodigoTipoCargo" name="CodigoTipoCargo">
                     <option value="">---</option>
-                    @foreach ($gastosTipo as $ListadogastosTipo)
-                        <option value="{{ $ListadogastosTipo->CodigoTipoGasto; }}" >{{ $ListadogastosTipo->TipoGasto; }}</option>
+                    @foreach ($cargosTipo as $ListadogastosTipo)
+                        <option value="{{ $ListadogastosTipo->CodigoTipoCargo; }}" >{{ $ListadogastosTipo->TipoCargo; }}</option>
                     @endforeach
                 </select>
             </div>
@@ -27,7 +27,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="">Descripción</label>
-                <input type="text" class="form-control form-control" >
+                <input type="text" class="form-control form-control" id="Descripcion" name="Descripcion">
             </div>
         </div>
 
@@ -54,7 +54,7 @@
                 <div class="col-md-7">
                     <div class="form-group">
                         <label for="">Total</label>
-                        <input type="number" class="form-control" id="Gasto" name="Gasto">
+                        <input type="number" class="form-control" id="Cargo" name="Cargo">
                     </div>
                 </div>
             </div>

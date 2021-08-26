@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Expediente;
 use App\Models\equipos;
 use App\Models\gastos;
+use App\Models\costos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -86,6 +87,7 @@ class ExpedienteMod extends Controller
         $LugaresBL = DB::select("SELECT * FROM c_lugarespresentacionbl");
         $embalajeList = DB::select("SELECT * FROM c_embalajestipos");
         $gastosTipo = DB::select("SELECT * FROM ct_c_gastostipos WHERE Estado > 0 AND CodEmpresa = $CodEmpresa");
+        $cargosTipo = DB::select("SELECT * FROM ct_c_cargostipos WHERE Estado > 0 AND CodEmpresa = $CodEmpresa");
         $MonedasL = DB::select("SELECT * FROM c_monedas");
         
         return view("expedientesmod.index",compact('ExpedientesListado',
@@ -99,7 +101,8 @@ class ExpedienteMod extends Controller
                                                     'LugaresBL',
                                                     'embalajeList',
                                                     'gastosTipo',
-                                                    'MonedasL'));
+                                                    'MonedasL',
+                                                    'cargosTipo'));
     }
 
     
@@ -182,6 +185,30 @@ class ExpedienteMod extends Controller
         gastos::create($request->all());
         return 1;
     }
+
+    public function CargoUsdAgregar(Request $request){
+
+        $CodExpediente = $request->CodExpediente;
+        
+        //para agregar otro dato al array request
+        $request->merge(['UsuarioCreacion' => auth()->user()->usuario]);
+        gastos::create($request->all());
+        return 1;
+    }
+
+
+    public function IngresoUsdAgregar(Request $request){
+
+        $CodExpediente = $request->CodExpediente;
+        
+        //para agregar otro dato al array request
+        $request->merge(['UsuarioCreacion' => auth()->user()->usuario]);
+        costos::create($request->all());
+        return 1;
+    }
+
+
+    
 
 
     

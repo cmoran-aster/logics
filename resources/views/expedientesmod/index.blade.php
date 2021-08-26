@@ -197,8 +197,6 @@ $(document).on('click', '.DeleteCobroUsd', function() {
     Logics.confirmacion('Desea continuar con la eliminación del COSTO (USD)?','Eliminargasto',CodGasto)
 });
 
-    
-
 function Eliminargasto(CodGasto) {
 
     $.ajax({
@@ -222,6 +220,27 @@ function Eliminargasto(CodGasto) {
             }
         });
 }
+
+
+/* para agregar*/
+$("#form_ingreso_usd").submit(function (e) { 
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ route('ingresousd.agregar') }} ",
+        data: $("#form_ingreso_usd").serialize(),
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se guardo el Ingreso USD correctamente','v');
+                $("#form_ingreso_usd")[0].reset();
+                //$("#table-ingreso-usd").DataTable().ajax.reload();
+            }else{
+                Logics.alertar(response,'r');
+            }
+
+        }
+    });
+});
 
 </script>
 @endsection
