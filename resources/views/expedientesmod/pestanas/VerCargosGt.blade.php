@@ -3,8 +3,9 @@
         <br>
     </div>
 </div>
-<form id="form_ingreso_usd">
+<form id="form_ingreso_gt">
     <input type="hidden" id="CodExpediente" name="CodExpediente" value="{{$CodExpediente}}" required>
+    <input type="hidden" id="Dolares" name="Dolares" value="0">
     @csrf
     <div class="row">
         <div class="col-md-2">
@@ -24,7 +25,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="">Descripción</label>
                 <input type="text" class="form-control form-control" id="Descripcion" name="Descripcion">
@@ -36,12 +37,12 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Moneda</label>
-                        <select name="Moneda" id="Moneda" class="form-control" >
+                        <select name="Moneda" id="Moneda" class="form-control" required>
                             <option value="">---</option>
                             @foreach ($MonedasL as $MonedasList)
                                 @php
-                                    if ($MonedasList->CodigoMoneda == "USD"){
-                                        $selected = "SELECTED";
+                                    if ($MonedasList->CodigoMoneda == "GTQ"){
+                                        $selected = "SELECTED"; 
                                     }else{
                                         $selected = "";
                                     }
@@ -58,6 +59,20 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-1 text-center">
+            <label for="">Ct Ajena</label>
+            <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="CtAjena" value="0" checked="">
+                  <label class="form-check-label">No</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="CtAjena" value="1">
+                  <label class="form-check-label">Si</label>
+                </div>
+              </div>
         </div>
 
         <div class="col-md-1">
@@ -85,18 +100,8 @@
 </div>
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10">
-            <table class="table table-sm table-bordered" id="table-ingreso-usd">
-                <thead>
-                    <tr>
-                        <th>Fecha Ingreso</th>
-                        <th>Tipo Cargo</th>
-                        <th>Descripcion</th>
-                        <th>Moneda</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-            </table>
+    <div class="col-md-10" id="tablaIngresoDiv">
+            
+                    
     </div>
 </div>

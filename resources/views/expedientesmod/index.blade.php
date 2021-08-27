@@ -10,8 +10,40 @@ Logics.ValidacionGeneral('form-Expediente');
 $(document).ready(function () {
     tablaEquipos();
     tablaCostoUSD();
-});
+    tablaIngresoUSD();
+    tablaIngresoGTQ();
+    tablaCostoGTQ();
 
+    $("#table-costos-usd").DataTable({
+    processing:true,
+    serverSide:true,
+    "searching": false,//quita el buscador
+    "autoWidth": false,//quita el auto ajuste
+    "bPaginate": false,//quita el paginador
+    "lengthChange": false,// quita el filtro
+    ajax:{
+        url: "{{ route('equipos.index') }} ",
+        data: {
+            CodExpediente: {{$CodExpediente}},
+            Datos: 'EquiposTable'
+        }
+    },
+    columns:[
+        {data: 'CodEquipo'},
+        {data: 'Identificacion'},
+        {data: 'CodTamano'},
+        {data: 'NumMarchamo1'},
+        {data: 'NumMarchamo2'},
+        {data: 'Peso'},
+        {data: 'action'}
+
+    ]
+
+    });
+});
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
 // ESTO ES PARA EL FORMULARIO DE EQUIPOS  //////
 function tablaEquipos() {
 var tablaequipos = $("#table-equipos").DataTable({
@@ -75,6 +107,12 @@ function Eliminar(funcion,Cod) {
     if (funcion == "Eliminargasto") {
         Eliminargasto(Cod);
     }
+    if (funcion == "EliminarIngreso") {
+        EliminarIngreso(Cod);
+    }
+    if (funcion == "EliminarIngresoGT") {
+        EliminarIngresoGT(Cod);
+    }
 }
 
 function EliminarEquipo(CodEquipo) {
@@ -137,9 +175,9 @@ function importar(area,cod,expediente) {
         }
     });
 }
-
-
-
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
 // ESTO ES PARA EL FORMULARIO DE COSTO USD  //////
 function tablaCostoUSD() {
     var tablaCostoUSD = $("#table-costos-usd").DataTable({
@@ -205,7 +243,7 @@ function Eliminargasto(CodGasto) {
             data: {
                 'CodGasto': CodGasto,
                 'CodExpediente': {{$CodExpediente}},
-                '_token': $("#token"+CodGasto).val(),
+                '_token': $("#tokenCosto"+CodGasto).val(),
             },
             beforeSend:function(){
                 //$("#modalCargando").modal('show');
@@ -213,15 +251,42 @@ function Eliminargasto(CodGasto) {
             success: function (response) {
                 if (response == 1) {
                     Logics.alertar('Se elimino correctamente el Costo(USD)','v');
-                    $("#table-equipos").DataTable().ajax.reload();
+                    $("#table-costos-usd").DataTable().ajax.reload();
                 }else{
                     Logics.alertar(response,'r');
                 }
             }
         });
 }
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
+/* ******************************************************************************************** */
+function tablaIngresoUSD() {
+    var tablaCostoUSD = $("#table-ingreso-usd").DataTable({
+        processing:true,
+        serverSide:true,
+        "searching": false,//quita el buscador
+        "autoWidth": false,//quita el auto ajuste
+        "bPaginate": false,//quita el paginador
+        "lengthChange": false,// quita el filtro
+        ajax:{
+            url: "{{ route('equipos.index') }} ",
+            data: {
+                CodExpediente: {{$CodExpediente}},
+                Datos: 'IngresoUsdTable'
+            }
+        },
+        columns:[
+            {data: 'FechaCargo'},
+            {data: 'CodigoTipoCargo'},
+            {data: 'Descripcion'},
+            {data: 'Moneda'},
+            {data: 'Cargo'},
+            {data: 'action'}
+        ]
 
-
+    });
+}
 /* para agregar*/
 $("#form_ingreso_usd").submit(function (e) { 
     e.preventDefault();
@@ -233,7 +298,7 @@ $("#form_ingreso_usd").submit(function (e) {
             if (response == 1) {
                 Logics.alertar('Se guardo el Ingreso USD correctamente','v');
                 $("#form_ingreso_usd")[0].reset();
-                //$("#table-ingreso-usd").DataTable().ajax.reload();
+                $("#table-ingreso-usd").DataTable().ajax.reload();
             }else{
                 Logics.alertar(response,'r');
             }
@@ -241,6 +306,160 @@ $("#form_ingreso_usd").submit(function (e) {
         }
     });
 });
+
+/* para eliminar */
+$(document).on('click', '.DeleteIngresoUsd', function() {
+    var CodGasto = $(this).attr('id');
+    Logics.confirmacion('Desea continuar con la eliminación del Ingreso (USD)?','EliminarIngreso',CodGasto)
+});
+
+function EliminarIngreso(CodGasto) {
+
+$.ajax({
+        type: "POST",
+        url: "{{ route('ingresousd.actualizar') }} ",
+        data: {
+            'CodGasto': CodGasto,
+            'CodExpediente': {{$CodExpediente}},
+            '_token': $("#tokenGasto"+CodGasto).val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se elimino correctamente el Ingresos(USD)','v');
+                $("#table-ingreso-usd").DataTable().ajax.reload();
+            }else{
+                Logics.alertar(response,'r');
+            }
+        }
+    });
+}
+
+
+
+/******************************************************************************************** */
+/******************************************************************************************** */
+
+function tablaIngresoGTQ(){
+    $.ajax({
+        type: "POST",
+        url: "{{route('ingresogtq.list')}}",
+        data: {
+            'CodExpediente': {{$CodExpediente}},
+            '_token': $("#tokenGeneral").val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+            $("#tablaIngresoDiv").html(response);
+        }
+    });
+}
+
+/* para agregar*/
+$("#form_ingreso_gt").submit(function (e) { 
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ route('ingresousd.agregar') }} ",
+        data: $("#form_ingreso_gt").serialize(),
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se guardo el Ingreso USD correctamente','v');
+                $("#form_ingreso_gt")[0].reset();
+                $("#CodigoTipoCargo").select2({
+                    placeholder: "---",
+                    allowClear: true
+                });
+                tablaIngresoGTQ();
+            }else{
+                Logics.alertar(response,'r');
+            }
+
+        }
+    });
+});
+/* para eliminar */
+$(document).on('click', '.DeleteIngresoGt', function() {
+    var CodGasto = $(this).attr('id');
+    Logics.confirmacion('Desea continuar con la eliminación del Ingreso (GTQ)?','EliminarIngresoGT',CodGasto)
+});
+
+function EliminarIngresoGT(CodGasto) {
+
+$.ajax({
+        type: "POST",
+        url: "{{ route('ingresousd.actualizar') }} ",
+        data: {
+            'CodGasto': CodGasto,
+            'CodExpediente': {{$CodExpediente}},
+            '_token': $("#tokenGeneral").val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se elimino correctamente el Ingresos(USD)','v');
+                tablaIngresoGTQ();
+            }else{
+                Logics.alertar(response,'r');
+            }
+        }
+    });
+}
+
+/* ************************************************************************************** */
+/* *********************************COSTO GT************************************************* */
+
+function tablaCostoGTQ(){
+    $.ajax({
+        type: "POST",
+        url: "{{route('costogtq.list')}}",
+        data: {
+            'CodExpediente': {{$CodExpediente}},
+            '_token': $("#tokenGeneral").val(),
+        },
+        beforeSend:function(){
+            //$("#modalCargando").modal('show');
+        },
+        success: function (response) {
+            $("#CostoDivGT").html(response);
+        }
+    });
+}
+/* para agregar*/
+$("#form_costos_gt").submit(function (e) { 
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "{{ route('costousd.agregar') }} ",
+        data: $("#form_costos_gt").serialize(),
+        success: function (response) {
+            if (response == 1) {
+                Logics.alertar('Se guardo el costo USD correctamente','v');
+                $("#form_costos_gt")[0].reset();
+                tablaCostoGTQ();
+                $("#CodProveedor").select2({
+                    placeholder: "---",
+                    allowClear: true
+                });
+                $("#CodigoTipoGasto").select2({
+                    placeholder: "---",
+                    allowClear: true
+                });
+            }else{
+                Logics.alertar(response,'r');
+            }
+
+        }
+    });
+});
+
+
 
 </script>
 @endsection
@@ -261,7 +480,9 @@ $("#form_ingreso_usd").submit(function (e) {
 
 
 <div class="row">
-    <div class="col-md-1"></div>
+    <div class="col-md-1">
+        <input type="hidden" name="_token" id="tokenGeneral" value="{{ csrf_token() }}" />
+    </div>
     <div class="col-md-10">
         <div class="card border-dark mb-3" style="border:solid 1px #1c375a !important;">
             <div class="card-header text-white" style="background-color: #2765a3 !important;">
@@ -431,20 +652,21 @@ $("#form_ingreso_usd").submit(function (e) {
             <a class="nav-link " id="VerDatosCuscar-tab" data-toggle="pill" href="#VerDatosCuscar" role="tab" aria-controls="VerDatosCuscar" aria-selected="true">Ver Datos Cuscar</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingreso USD</a>
+            <a class="nav-link " id="VerCargos-tab" data-toggle="pill" href="#VerCargos" role="tab" aria-controls="VerCargos" aria-selected="true">Ingresos USD</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="VerGastos-tab" data-toggle="pill" href="#VerGastos" role="tab" aria-controls="VerGastos" aria-selected="true">Costos USD</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link " id="VerGastos3-tab" data-toggle="pill" href="#VerGastos3" role="tab" aria-controls="VerGastos3" aria-selected="true">Costo GTQ</a>
+            <a class="nav-link " id="VerCargos3-tab" data-toggle="pill" href="#VerCargos3" role="tab" aria-controls="VerCargos3" aria-selected="true">Ingresos GTQ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " id="VerCargos3-tab" data-toggle="pill" href="#VerCargos3" role="tab" aria-controls="VerCargos3" aria-selected="true">Ingreso GTQ</a>
+            <a class="nav-link " id="VerGastos3-tab" data-toggle="pill" href="#VerGastos3" role="tab" aria-controls="VerGastos3" aria-selected="true">Costos GTQ</a>
         </li>
+        
         <li class="nav-item">
-            <a class="nav-link " id="VerCargosNaviera-tab" data-toggle="pill" href="#VerCargosNaviera" role="tab" aria-controls="VerCargosNaviera" aria-selected="true">Ver Cargos Naviera</a>
+            <a class="nav-link " id="VerCargosNaviera-tab" data-toggle="pill" href="#VerCargosNaviera" role="tab" aria-controls="VerCargosNaviera" aria-selected="true">Resumen Ingreso y Costo</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="VerDatosACuscar-tab" data-toggle="pill" href="#VerDatosACuscar" role="tab" aria-controls="VerDatosACuscar" aria-selected="true">Ver Datos a Cuscar</a>
@@ -476,14 +698,15 @@ $("#form_ingreso_usd").submit(function (e) {
         <div class="tab-pane fade " id="VerGastos" role="tabpanel" aria-labelledby="VerGastos-tab">
             @include('expedientesmod.pestanas.VerGastosUsd')
         </div>
-         <!-- **** -->
-         <div class="tab-pane fade " id="VerGastos3" role="tabpanel" aria-labelledby="VerGastos3-tab">
-            gastos gt
-        </div>
         <!-- **** -->
         <div class="tab-pane fade " id="VerCargos3" role="tabpanel" aria-labelledby="VerCargos3-tab">
-            cargos gt
+            @include('expedientesmod.pestanas.VerCargosGt')
         </div>
+         <!-- **** -->
+         <div class="tab-pane fade " id="VerGastos3" role="tabpanel" aria-labelledby="VerGastos3-tab">
+            @include('expedientesmod.pestanas.VerGastosGt')
+        </div>
+        
         <!-- **** -->
         <div class="tab-pane fade " id="VerCargosNaviera" role="tabpanel" aria-labelledby="VerCargosNaviera-tab">
             VerCargosNaviera

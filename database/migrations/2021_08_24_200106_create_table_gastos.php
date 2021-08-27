@@ -16,6 +16,8 @@ class CreateTableGastos extends Migration
         Schema::create('exp_gastos', function (Blueprint $table) {
             $table->id('CodGasto');
             $table->integer('CodExpediente');
+            $table->integer('Dolares')->default(1);
+            $table->integer('CtAjena')->default(0);
             $table->integer('CodProveedor');
             $table->dateTime('FechaGasto');
             $table->string('NumFactura',200)->nullable($value = true);
@@ -23,6 +25,7 @@ class CreateTableGastos extends Migration
             $table->string('Descripcion')->nullable($value = true);
             $table->string('Moneda',3);
             $table->decimal('Gasto',10,2);
+            $table->decimal('TipoCambio',10,5)->nullable($value = true);
             $table->string('UsuarioCreacion',25);
             $table->string('UsuarioMod',25)->nullable($value = true);
             $table->integer('Estado')->default(1);

@@ -58,7 +58,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/expediente-mod/ingresousd/agregar',[ExpedienteMod::class,'IngresoUsdAgregar'])->name('ingresousd.agregar');
     Route::post('/expediente-mod/ingresousd/actualizar',[ExpedienteMod::class,'IngresoUsdActualizar'])->name('ingresousd.actualizar');
     
-
+    Route::post('/expediente-mod/ingresogtq/list',[ExpedienteMod::class,'IngresoGtqList'])->name('ingresogtq.list');
+    Route::post('/expediente-mod/costogtq/list',[ExpedienteMod::class,'CostoGtqList'])->name('costogtq.list');
+    
 });
 
 
